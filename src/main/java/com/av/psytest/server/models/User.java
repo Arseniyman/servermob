@@ -5,9 +5,10 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
+@Table(name = "usr")
 public class User implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id")
     private Long id;
     @Column(name = "email", length = 100)
@@ -25,6 +26,8 @@ public class User implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "last_online")
     private Date lastOnline;
+    @ManyToOne
+    private UserSelectedAnswer userSelectedAnswer;
 
     public User() {
     }
@@ -56,6 +59,19 @@ public class User implements Serializable {
         this.sex = sex;
         this.dateOfRegister = dateOfRegister;
         this.lastOnline = lastOnline;
+    }
+
+    public User(Long id, String email, String password, Date dateOfBirth,
+                Boolean sex, Date dateOfRegister, Date lastOnline,
+                UserSelectedAnswer userSelectedAnswer) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.dateOfBirth = dateOfBirth;
+        this.sex = sex;
+        this.dateOfRegister = dateOfRegister;
+        this.lastOnline = lastOnline;
+        this.userSelectedAnswer = userSelectedAnswer;
     }
 
     public Long getId() {
@@ -112,5 +128,13 @@ public class User implements Serializable {
 
     public void setLastOnline(Date lastOnline) {
         this.lastOnline = lastOnline;
+    }
+
+    public UserSelectedAnswer getUserSelectedAnswer() {
+        return userSelectedAnswer;
+    }
+
+    public void setUserSelectedAnswer(UserSelectedAnswer userSelectedAnswer) {
+        this.userSelectedAnswer = userSelectedAnswer;
     }
 }
