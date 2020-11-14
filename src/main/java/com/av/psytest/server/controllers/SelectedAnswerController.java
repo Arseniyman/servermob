@@ -1,7 +1,7 @@
 package com.av.psytest.server.controllers;
 
-import com.av.psytest.server.models.Question;
-import com.av.psytest.server.services.QuestionService;
+import com.av.psytest.server.models.SelectedAnswer;
+import com.av.psytest.server.services.SelectedAnswerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,32 +10,31 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/question")
-public class QuestionController {
-
-    private QuestionService service;
+@RequestMapping("/selanswer")
+public class SelectedAnswerController {
+    private SelectedAnswerService service;
 
     @Autowired
-    public QuestionController(QuestionService service) {
+    public SelectedAnswerController(SelectedAnswerService service) {
         this.service = service;
     }
 
     @GetMapping("/all")
     @ResponseStatus(HttpStatus.OK)
-    public List<Question> getAll() {
+    public List<SelectedAnswer> getAll() {
         return service.getAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Question> getQuestionById(@PathVariable(value = "id") Long id) {
-        Question question = service.getById(id);
-        return ResponseEntity.ok().body(question);
+    public ResponseEntity<SelectedAnswer> getQuestionById(@PathVariable(value = "id") Long id) {
+        SelectedAnswer selectedAnswer = service.getById(id);
+        return ResponseEntity.ok().body(selectedAnswer);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/save")
-    public void save(@RequestBody(required = false) Question question) {
-        service.save(question);
+    public void save(@RequestBody(required = false) SelectedAnswer  selectedAnswer) {
+        service.save(selectedAnswer);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)

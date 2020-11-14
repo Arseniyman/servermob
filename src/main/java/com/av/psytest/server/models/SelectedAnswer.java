@@ -1,5 +1,7 @@
 package com.av.psytest.server.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -7,14 +9,16 @@ import java.util.List;
 @Table(name = "selected_answer")
 public class SelectedAnswer {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
     @OneToMany(mappedBy = "selectedAnswer")
     private List<Question> questions;
     @OneToMany(mappedBy = "selectedAnswer")
     private List<Answer> answers;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="user_selected_answer_id", referencedColumnName = "id")
+    @JsonIgnore
     private UserSelectedAnswer userSelectedAnswer;
 
     public SelectedAnswer() {

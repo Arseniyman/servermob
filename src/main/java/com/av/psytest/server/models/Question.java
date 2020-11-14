@@ -1,5 +1,7 @@
 package com.av.psytest.server.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -8,16 +10,20 @@ import java.util.List;
 @Table(name = "question")
 public class Question implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
     @Column(name = "text", length = 60)
     private String text;
     @OneToMany(mappedBy = "question")
     private List<Answer> answers;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="selected_answer_id", referencedColumnName = "id")
+    @JsonIgnore
     private SelectedAnswer selectedAnswer;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="questionnaire_id", referencedColumnName = "id")
+    @JsonIgnore
     private Questionnaire questionnaire;
 
     public Question() {

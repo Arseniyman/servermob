@@ -1,5 +1,7 @@
 package com.av.psytest.server.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -8,7 +10,7 @@ import java.util.Date;
 @Table(name = "usr")
 public class User implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
     @Column(name = "email", length = 100)
@@ -26,7 +28,9 @@ public class User implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "last_online")
     private Date lastOnline;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="user_selected_answer_id", referencedColumnName = "id")
+    @JsonIgnore
     private UserSelectedAnswer userSelectedAnswer;
 
     public User() {

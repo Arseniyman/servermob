@@ -1,0 +1,10 @@
+version: '3.2'
+services:
+  postgres:
+    image: postgres:13.0
+    environment:
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_USER=root
+      - POSTGRES_DB=sandbox
+    ports:
+      - 5432:5432

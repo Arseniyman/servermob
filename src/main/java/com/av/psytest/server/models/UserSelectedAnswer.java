@@ -7,7 +7,7 @@ import java.util.List;
 @Table(name = "user_selected_answer")
 public class UserSelectedAnswer {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
     @OneToMany(mappedBy = "userSelectedAnswer")

@@ -1,7 +1,7 @@
 package com.av.psytest.server.controllers;
 
-import com.av.psytest.server.models.Question;
-import com.av.psytest.server.services.QuestionService;
+import com.av.psytest.server.models.Answer;
+import com.av.psytest.server.services.AnswerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,32 +10,31 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/question")
-public class QuestionController {
-
-    private QuestionService service;
+@RequestMapping("/answer")
+public class AnswerController {
+    private AnswerService service;
 
     @Autowired
-    public QuestionController(QuestionService service) {
+    public AnswerController(AnswerService service) {
         this.service = service;
     }
 
     @GetMapping("/all")
     @ResponseStatus(HttpStatus.OK)
-    public List<Question> getAll() {
+    public List<Answer> getAll() {
         return service.getAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Question> getQuestionById(@PathVariable(value = "id") Long id) {
-        Question question = service.getById(id);
-        return ResponseEntity.ok().body(question);
+    public ResponseEntity<Answer> getQuestionById(@PathVariable(value = "id") Long id) {
+        Answer answer = service.getById(id);
+        return ResponseEntity.ok().body(answer);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/save")
-    public void save(@RequestBody(required = false) Question question) {
-        service.save(question);
+    public void save(@RequestBody(required = false) Answer answer) {
+        service.save(answer);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
