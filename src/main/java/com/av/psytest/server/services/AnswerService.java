@@ -31,4 +31,7 @@ public class AnswerService {
     public void delete(Long id) {
         repo.deleteById(id);
     }
+    public boolean existById(Long id) {
+        return repo.existsById(id);
+    }
 }

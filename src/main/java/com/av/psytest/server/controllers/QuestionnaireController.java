@@ -1,10 +1,10 @@
 package com.av.psytest.server.controllers;
 
+import com.av.psytest.server.exceptions.ResourceNotFoundException;
 import com.av.psytest.server.models.Questionnaire;
 import com.av.psytest.server.services.QuestionnaireService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,9 +26,11 @@ public class QuestionnaireController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Questionnaire> getQuestionById(@PathVariable(value = "id") Long id) {
-        Questionnaire questionnaire = service.getById(id);
-        return ResponseEntity.ok().body(questionnaire);
+    public Questionnaire getQuestionById(@PathVariable(value = "id") Long id) {
+        if (!service.existById(id)) {
+            throw new ResourceNotFoundException("Questionnaire not found with id " + id);
+        }
+        return service.getById(id);
     }
 
     @ResponseStatus(HttpStatus.CREATED)

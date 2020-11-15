@@ -1,10 +1,11 @@
 package com.av.psytest.server.controllers;
 
+import com.av.psytest.server.exceptions.ResourceNotFoundException;
 import com.av.psytest.server.models.Answer;
 import com.av.psytest.server.services.AnswerService;
+import com.av.psytest.server.services.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,34 +13,50 @@ import java.util.List;
 @RestController
 @RequestMapping("/answer")
 public class AnswerController {
-    private AnswerService service;
+    private AnswerService answerService;
+    private QuestionService questionService;
 
     @Autowired
-    public AnswerController(AnswerService service) {
-        this.service = service;
+    public AnswerController(AnswerService answerService,
+                            QuestionService questionService) {
+        this.answerService = answerService;
+        this.questionService = questionService;
     }
 
     @GetMapping("/all")
     @ResponseStatus(HttpStatus.OK)
     public List<Answer> getAll() {
-        return service.getAll();
+        return answerService.getAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Answer> getQuestionById(@PathVariable(value = "id") Long id) {
-        Answer answer = service.getById(id);
-        return ResponseEntity.ok().body(answer);
+    public Answer getQuestionById(@PathVariable(value = "id") Long id) {
+        if (answerService.existById(id)) {
+            return answerService.getById(id);
+        } else {
+            throw new ResourceNotFoundException("Answer not found with id " + id);
+        }
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/save")
-    public void save(@RequestBody(required = false) Answer answer) {
-        service.save(answer);
+    @PostMapping("/save/{questionId}")
+    public void save(@PathVariable Long questionId,
+                     @RequestBody(required = false) Answer answer) {
+        if (questionService.existById(questionId)) {
+            answer.setQuestion(questionService.getById(questionId));
+            answerService.save(answer);
+        } else {
+            throw new ResourceNotFoundException("Question not found with id " + questionId);
+        }
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @GetMapping("/delete/{id}")
     public void delete(@PathVariable(value = "id") Long id) {
-        service.delete(id);
+        if (answerService.existById(id)) {
+            answerService.delete(id);
+        } else {
+            throw new ResourceNotFoundException("Answer not found with id " + id);
+        }
     }
 }
