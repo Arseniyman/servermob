@@ -9,26 +9,26 @@ import java.util.List;
 
 @Service
 public class SelectedAnswerService {
-    private SelectedAnswerRepository repo;
+    private SelectedAnswerRepository selecAnswRepo;
 
     @Autowired
-    public SelectedAnswerService(SelectedAnswerRepository repo) {
-        this.repo = repo;
+    public SelectedAnswerService(SelectedAnswerRepository selecAnswRepo) {
+        this.selecAnswRepo = selecAnswRepo;
     }
 
     public void save(SelectedAnswer selectedAnswer) {
-        repo.save(selectedAnswer);
+        selecAnswRepo.save(selectedAnswer);
     }
 
-    public List<SelectedAnswer> getAll() {
-        return (List<SelectedAnswer>) repo.findAll();
+    public List<SelectedAnswer> getAllSelAnswByUsername(String username) {
+        return selecAnswRepo.findAllByUserUsername(username);
     }
 
     public SelectedAnswer getById(Long id) {
-        return repo.findById(id).get();
+        return selecAnswRepo.findById(id).get();
     }
 
     public void delete(Long id) {
-        repo.deleteById(id);
+        selecAnswRepo.deleteById(id);
     }
 }

@@ -38,7 +38,7 @@ public class AnswerController {
         }
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping("/save/{questionId}")
     public void save(@PathVariable Long questionId,
                      @RequestBody(required = false) Answer answer) {
@@ -50,7 +50,7 @@ public class AnswerController {
         }
     }
 
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(value = HttpStatus.OK)
     @GetMapping("/delete/{id}")
     public void delete(@PathVariable(value = "id") Long id) {
         if (answerService.existById(id)) {

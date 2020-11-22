@@ -1,16 +1,26 @@
 package com.av.psytest.server.controllers;
 
+import com.av.psytest.server.models.Role;
 import com.av.psytest.server.models.User;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.av.psytest.server.repositories.RoleRepository;
+import com.av.psytest.server.services.AppUserDetailsService;
+import com.av.psytest.server.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
 public class UserController {
 
-    @GetMapping("/one")
-    public User getUser() {
-        return new User("Lela");
+    private UserService userService;
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
+    @PostMapping("/reg")
+    public void registerUser(@RequestBody(required = false) User user) {
+        userService.save(user);
     }
 }

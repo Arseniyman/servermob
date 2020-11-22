@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "usr")
@@ -14,8 +16,8 @@ public class User implements Serializable {
     @Column(name = "id")
     private Long id;
     @Column(name = "email", length = 100)
-    private String email;
-    @Column(name = "password", length = 255)
+    private String username;
+    @Column(name = "password", length = 68)
     private String password;
     @Temporal(TemporalType.DATE)
     @Column(name = "date_of_birth")
@@ -25,13 +27,21 @@ public class User implements Serializable {
     @Temporal(TemporalType.DATE)
     @Column(name = "date_of_register")
     private Date dateOfRegister;
+    @ManyToMany
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(
+                    name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "role_id", referencedColumnName = "id"
+            )
+    )
+    private Set<Role> roles;
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "last_online")
     private Date lastOnline;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="user_selected_answer_id", referencedColumnName = "id")
+    @OneToMany(mappedBy = "user")
     @JsonIgnore
-    private UserSelectedAnswer userSelectedAnswer;
+    private List<SelectedAnswer> selectedAnswers;
 
     public User() {
     }
@@ -40,42 +50,13 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public User(String email) {
-        this.email = email;
+    public User(String username) {
+        this.username = username;
     }
 
-    public User(Long id, String email, String password, Date dateOfBirth,
-                Boolean sex, Date dateOfRegister) {
-        this.id = id;
-        this.email = email;
+    public User(String username, String password) {
+        this.username = username;
         this.password = password;
-        this.dateOfBirth = dateOfBirth;
-        this.sex = sex;
-        this.dateOfRegister = dateOfRegister;
-    }
-
-    public User(Long id, String email, String password, Date dateOfBirth, Boolean sex,
-                Date dateOfRegister, Date lastOnline) {
-        this.id = id;
-        this.email = email;
-        this.password = password;
-        this.dateOfBirth = dateOfBirth;
-        this.sex = sex;
-        this.dateOfRegister = dateOfRegister;
-        this.lastOnline = lastOnline;
-    }
-
-    public User(Long id, String email, String password, Date dateOfBirth,
-                Boolean sex, Date dateOfRegister, Date lastOnline,
-                UserSelectedAnswer userSelectedAnswer) {
-        this.id = id;
-        this.email = email;
-        this.password = password;
-        this.dateOfBirth = dateOfBirth;
-        this.sex = sex;
-        this.dateOfRegister = dateOfRegister;
-        this.lastOnline = lastOnline;
-        this.userSelectedAnswer = userSelectedAnswer;
     }
 
     public Long getId() {
@@ -86,12 +67,12 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public String getEmail() {
-        return email;
+    public String getUsername() {
+        return username;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -134,11 +115,19 @@ public class User implements Serializable {
         this.lastOnline = lastOnline;
     }
 
-    public UserSelectedAnswer getUserSelectedAnswer() {
-        return userSelectedAnswer;
+    public Set<Role> getRoles() {
+        return roles;
     }
 
-    public void setUserSelectedAnswer(UserSelectedAnswer userSelectedAnswer) {
-        this.userSelectedAnswer = userSelectedAnswer;
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public List<SelectedAnswer> getSelectedAnswers() {
+        return selectedAnswers;
+    }
+
+    public void setSelectedAnswers(List<SelectedAnswer> selectedAnswers) {
+        this.selectedAnswers = selectedAnswers;
     }
 }

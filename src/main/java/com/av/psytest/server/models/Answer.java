@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "answer")
@@ -18,10 +19,9 @@ public class Answer implements Serializable {
     @JoinColumn(name="question_id", referencedColumnName = "id")
     @JsonIgnore
     private Question question;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="selected_answer_id", referencedColumnName = "id")
+    @OneToMany(mappedBy = "answer")
     @JsonIgnore
-    private SelectedAnswer selectedAnswer;
+    private List<SelectedAnswer> selectedAnswers;
 
     public Answer() {
     }
@@ -56,11 +56,11 @@ public class Answer implements Serializable {
         this.question = question;
     }
 
-    public SelectedAnswer getSelectedAnswer() {
-        return selectedAnswer;
+    public List<SelectedAnswer> getSelectedAnswers() {
+        return selectedAnswers;
     }
 
-    public void setSelectedAnswer(SelectedAnswer selectedAnswer) {
-        this.selectedAnswer = selectedAnswer;
+    public void setSelectedAnswers(List<SelectedAnswer> selectedAnswers) {
+        this.selectedAnswers = selectedAnswers;
     }
 }

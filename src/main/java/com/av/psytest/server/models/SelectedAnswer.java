@@ -3,7 +3,6 @@ package com.av.psytest.server.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "selected_answer")
@@ -12,30 +11,20 @@ public class SelectedAnswer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-    @OneToMany(mappedBy = "selectedAnswer")
-    private List<Question> questions;
-    @OneToMany(mappedBy = "selectedAnswer")
-    private List<Answer> answers;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="answer_id", referencedColumnName = "id")
+    private Answer answer;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="user_selected_answer_id", referencedColumnName = "id")
     @JsonIgnore
-    private UserSelectedAnswer userSelectedAnswer;
+    @JoinColumn(name="user_id", referencedColumnName = "id")
+    private User user;
 
     public SelectedAnswer() {
     }
 
-    public SelectedAnswer(Long id, List<Question> questions, List<Answer> answers) {
-        this.id = id;
-        this.questions = questions;
-        this.answers = answers;
-    }
-
-    public SelectedAnswer(Long id, List<Question> questions, List<Answer> answers,
-                          UserSelectedAnswer userSelectedAnswer) {
-        this.id = id;
-        this.questions = questions;
-        this.answers = answers;
-        this.userSelectedAnswer = userSelectedAnswer;
+    public SelectedAnswer(Answer answer, User user) {
+        this.answer = answer;
+        this.user = user;
     }
 
     public Long getId() {
@@ -46,27 +35,19 @@ public class SelectedAnswer {
         this.id = id;
     }
 
-    public List<Question> getQuestions() {
-        return questions;
+    public Answer getAnswer() {
+        return answer;
     }
 
-    public void setQuestions(List<Question> questions) {
-        this.questions = questions;
+    public void setAnswer(Answer answer) {
+        this.answer = answer;
     }
 
-    public List<Answer> getAnswers() {
-        return answers;
+    public User getUser() {
+        return user;
     }
 
-    public void setAnswers(List<Answer> answers) {
-        this.answers = answers;
-    }
-
-    public UserSelectedAnswer getUserSelectedAnswer() {
-        return userSelectedAnswer;
-    }
-
-    public void setUserSelectedAnswer(UserSelectedAnswer userSelectedAnswer) {
-        this.userSelectedAnswer = userSelectedAnswer;
+    public void setUser(User user) {
+        this.user = user;
     }
 }

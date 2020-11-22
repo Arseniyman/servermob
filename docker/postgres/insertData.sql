@@ -64,5 +64,4 @@ INSERT INTO answer(text, question_id) VALUES
 ('hurry up to ask for help', 20),
 ('do not ask for help', 20);
 
-INSERT INTO selected_answer(question_id, answer_id) VALUES
-()
+INSERT INTO role(name) VALUES('ROLE_USER'), ('ROLE_ADMIN');

@@ -9,29 +9,29 @@ import java.util.List;
 
 @Service
 public class QuestionnaireService {
-    private QuestionnaireRepository repo;
+    private QuestionnaireRepository questionnaireRepo;
 
     @Autowired
-    public QuestionnaireService(QuestionnaireRepository repo) {
-        this.repo = repo;
+    public QuestionnaireService(QuestionnaireRepository questionnaireRepo) {
+        this.questionnaireRepo = questionnaireRepo;
     }
 
     public void save(Questionnaire questionnaire) {
-        repo.save(questionnaire);
+        questionnaireRepo.save(questionnaire);
     }
 
     public List<Questionnaire> getAll() {
-        return (List<Questionnaire>) repo.findAll();
+        return (List<Questionnaire>) questionnaireRepo.findAll();
     }
 
     public Questionnaire getById(Long id) {
-        return repo.findById(id).get();
+        return questionnaireRepo.findById(id).get();
     }
 
     public void delete(Long id) {
-        repo.deleteById(id);
+        questionnaireRepo.deleteById(id);
     }
     public boolean existById(Long id) {
-        return repo.existsById(id);
+        return questionnaireRepo.existsById(id);
     }
 }

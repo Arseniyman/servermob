@@ -18,10 +18,6 @@ public class Question implements Serializable {
     @OneToMany(mappedBy = "question")
     private List<Answer> answers;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="selected_answer_id", referencedColumnName = "id")
-    @JsonIgnore
-    private SelectedAnswer selectedAnswer;
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="questionnaire_id", referencedColumnName = "id")
     @JsonIgnore
     private Questionnaire questionnaire;
@@ -35,12 +31,10 @@ public class Question implements Serializable {
     }
 
     public Question(Long id, String text, List<Answer> answers,
-                    SelectedAnswer selectedAnswer,
                     Questionnaire questionnaire) {
         this.id = id;
         this.text = text;
         this.answers = answers;
-        this.selectedAnswer = selectedAnswer;
         this.questionnaire = questionnaire;
     }
 
@@ -66,14 +60,6 @@ public class Question implements Serializable {
 
     public void setAnswers(List<Answer> answers) {
         this.answers = answers;
-    }
-
-    public SelectedAnswer getSelectedAnswer() {
-        return selectedAnswer;
-    }
-
-    public void setSelectedAnswer(SelectedAnswer selectedAnswer) {
-        this.selectedAnswer = selectedAnswer;
     }
 
     public Questionnaire getQuestionnaire() {

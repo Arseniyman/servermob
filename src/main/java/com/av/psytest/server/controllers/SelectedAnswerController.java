@@ -1,45 +1,65 @@
 package com.av.psytest.server.controllers;
 
 import com.av.psytest.server.models.SelectedAnswer;
+import com.av.psytest.server.services.AnswerService;
 import com.av.psytest.server.services.SelectedAnswerService;
+import com.av.psytest.server.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
 @RequestMapping("/selanswer")
 public class SelectedAnswerController {
-    private SelectedAnswerService service;
+    private SelectedAnswerService selAnsService;
+    private AnswerService answerService;
+    private UserService userService;
+    
+    @Autowired
+    public SelectedAnswerController(SelectedAnswerService selAnsService) {
+        this.selAnsService = selAnsService;
+    }
 
     @Autowired
-    public SelectedAnswerController(SelectedAnswerService service) {
-        this.service = service;
+    public void setAnswerService(AnswerService answerService) {
+        this.answerService = answerService;
+    }
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping("/all")
     @ResponseStatus(HttpStatus.OK)
-    public List<SelectedAnswer> getAll() {
-        return service.getAll();
+    public List<SelectedAnswer> getAllSelAnswByUsername(Principal principal) {
+        return selAnsService.getAllSelAnswByUsername(principal.getName());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<SelectedAnswer> getQuestionById(@PathVariable(value = "id") Long id) {
-        SelectedAnswer selectedAnswer = service.getById(id);
+        SelectedAnswer selectedAnswer = selAnsService.getById(id);
         return ResponseEntity.ok().body(selectedAnswer);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/save")
-    public void save(@RequestBody(required = false) SelectedAnswer  selectedAnswer) {
-        service.save(selectedAnswer);
+    public void save(@RequestBody(required = true) Long answerId,
+                     Principal principal) {
+        SelectedAnswer selAnsw = new SelectedAnswer(
+                answerService.getById(answerId),
+                userService.FindByUsername(principal.getName())
+        );
+        selAnsService.save(selAnsw);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @GetMapping("/delete/{id}")
     public void delete(@PathVariable(value = "id") Long id) {
-        service.delete(id);
+        selAnsService.delete(id);
     }
 }
