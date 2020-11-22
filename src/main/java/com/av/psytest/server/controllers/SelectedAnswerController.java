@@ -1,6 +1,7 @@
 package com.av.psytest.server.controllers;
 
 import com.av.psytest.server.models.SelectedAnswer;
+import com.av.psytest.server.models.User;
 import com.av.psytest.server.services.AnswerService;
 import com.av.psytest.server.services.SelectedAnswerService;
 import com.av.psytest.server.services.UserService;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -50,9 +52,11 @@ public class SelectedAnswerController {
     @PostMapping("/save")
     public void save(@RequestBody(required = true) Long answerId,
                      Principal principal) {
+        User curUser = userService.FindByUsername(principal.getName());
+        curUser.setLastOnline(new Date());
         SelectedAnswer selAnsw = new SelectedAnswer(
                 answerService.getById(answerId),
-                userService.FindByUsername(principal.getName())
+                curUser
         );
         selAnsService.save(selAnsw);
     }
