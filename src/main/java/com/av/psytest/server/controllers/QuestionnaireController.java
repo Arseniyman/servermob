@@ -54,12 +54,12 @@ public class QuestionnaireController {
     }
 
     @GetMapping("/result")
-    public Short getResult(Principal principal) {
+    public Integer getResult(Principal principal) {
         List<Long> trueAnswer = Arrays.asList(2L, 3L, 6L, 8L, 9L, 12L, 13L, 16L, 17L, 20L,
                 21L, 24L, 25L, 28L, 29L, 31L, 33L, 35L, 38L, 39L);
         User cutUser = userService.FindByUsername(principal.getName());
         List<SelectedAnswer> userSelectedAnswers = cutUser.getSelectedAnswers();
-        Short countOfAccordance = 0;
+        Integer countOfAccordance = 0;
 
         for(SelectedAnswer selAnsw : userSelectedAnswers) {
             if (trueAnswer.contains(selAnsw.getAnswer().getId())) {
@@ -67,6 +67,6 @@ public class QuestionnaireController {
             }
         }
 
-        return countOfAccordance;
+        return countOfAccordance * 5;
     }
 }
