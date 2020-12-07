@@ -43,6 +43,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterAfter(new JwtTokenVerifier(secretKey, jwtConfig),
                         JwtUsernameAndPasswordAuthFilter.class)
                 .authorizeRequests()
+                .antMatchers("/questionnaire/result").authenticated()
+                .antMatchers("/questionnaire/**").permitAll()
                 .antMatchers("/user/reg").permitAll()
                 .antMatchers("/question/save").hasRole("ADMIN")
                 .antMatchers("/user/**").hasRole("ADMIN")
