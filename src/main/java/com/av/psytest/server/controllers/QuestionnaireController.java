@@ -4,7 +4,6 @@ import com.av.psytest.server.exceptions.ResourceNotFoundException;
 import com.av.psytest.server.models.Questionnaire;
 import com.av.psytest.server.models.SelectedAnswer;
 import com.av.psytest.server.models.User;
-import com.av.psytest.server.services.AnswerService;
 import com.av.psytest.server.services.QuestionnaireService;
 import com.av.psytest.server.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,7 +62,7 @@ public class QuestionnaireController {
         Short countOfAccordance = 0;
 
         for(SelectedAnswer selAnsw : userSelectedAnswers) {
-            if (trueAnswer.contains(selAnsw.getId())) {
+            if (trueAnswer.contains(selAnsw.getAnswer().getId())) {
                 countOfAccordance++;
             }
         }
