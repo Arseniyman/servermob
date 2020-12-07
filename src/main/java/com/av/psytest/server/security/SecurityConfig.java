@@ -43,10 +43,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterAfter(new JwtTokenVerifier(secretKey, jwtConfig),
                         JwtUsernameAndPasswordAuthFilter.class)
                 .authorizeRequests()
+                .antMatchers("/user/reg").permitAll()
                 .antMatchers("/question/save").hasRole("ADMIN")
                 .antMatchers("/user/**").hasRole("ADMIN")
                 .antMatchers("/question/**").permitAll()
-                .antMatchers("/user/reg").permitAll()
                 .antMatchers("/selanswer/**").hasRole("USER")
                 .antMatchers("/answer/**").hasRole("USER");
     }

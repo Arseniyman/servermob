@@ -36,8 +36,8 @@ public class UserService {
 
     public void save(User user) throws UserAlreadyExistsException {
         if (userRepo.existsByUsername(user.getUsername())) {
-            throw new UserAlreadyExistsException("User with email" +
-                    user.getUsername() + "already exists");
+            throw new UserAlreadyExistsException("User with email " +
+                    user.getUsername() + " already exists");
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         Set<Role> roles = new HashSet<>();
