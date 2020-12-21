@@ -8,11 +8,10 @@ import com.av.psytest.server.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -64,5 +63,11 @@ public class UserService {
 
     public User FindByUsername(String username) {
         return userRepo.findByUsername(username);
+    }
+
+    public List<User> getUsersByDateBetweenAndGender(Boolean sex,
+                                                     Date minDate,
+                                                     Date maxDate) {
+        return userRepo.findByDateOfBirthBetweenAndSexIs(sex, minDate, maxDate);
     }
 }

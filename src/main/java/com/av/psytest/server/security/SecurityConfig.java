@@ -50,7 +50,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user/**").hasRole("ADMIN")
                 .antMatchers("/question/**").permitAll()
                 .antMatchers("/selanswer/**").hasRole("USER")
-                .antMatchers("/answer/**").hasRole("USER");
+                .antMatchers("/answer/**").hasRole("USER")
+                .antMatchers("/stat/**").hasRole("ADMIN");
     }
 
     @Bean

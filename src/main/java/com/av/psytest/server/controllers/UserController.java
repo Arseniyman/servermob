@@ -43,4 +43,9 @@ public class UserController {
             ){
         return userService.getAll(pageable).getContent();
     }
+
+    @GetMapping("/{email")
+    public User getUserByUsename(@PathVariable(value = "email") String email) {
+        return userService.FindByUsername(email);
+    }
 }

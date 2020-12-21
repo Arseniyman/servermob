@@ -2,7 +2,7 @@ package com.av.psytest.server.controllers;
 
 import com.av.psytest.server.exceptions.ResourceNotFoundException;
 import com.av.psytest.server.models.Questionnaire;
-import com.av.psytest.server.services.JungTestService;
+import com.av.psytest.server.services.JungTestResultService;
 import com.av.psytest.server.services.QuestionnaireService;
 import com.av.psytest.server.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,15 +17,15 @@ import java.util.List;
 public class QuestionnaireController {
     private QuestionnaireService questionnaireService;
     private UserService userService;
-    private JungTestService jungTestService;
+    private JungTestResultService jungTestResultService;
 
     @Autowired
     public QuestionnaireController(QuestionnaireService questionnaireService,
                                    UserService userService,
-                                   JungTestService jungTestService) {
+                                   JungTestResultService jungTestResultService) {
         this.questionnaireService = questionnaireService;
         this.userService = userService;
-        this.jungTestService = jungTestService;
+        this.jungTestResultService = jungTestResultService;
     }
 
     @GetMapping("/all")
@@ -56,6 +56,6 @@ public class QuestionnaireController {
 
     @GetMapping("/result")
     public Integer getResult(Principal principal) {
-        return jungTestService.getResult(principal, userService);
+        return jungTestResultService.getResult(principal, userService);
     }
 }

@@ -42,6 +42,9 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user")
     @JsonIgnore
     private List<SelectedAnswer> selectedAnswers;
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private List<JungTestResult> jungTestResults;
 
     public User() {
     }
@@ -129,5 +132,13 @@ public class User implements Serializable {
 
     public void setSelectedAnswers(List<SelectedAnswer> selectedAnswers) {
         this.selectedAnswers = selectedAnswers;
+    }
+
+    public List<JungTestResult> getJungTestResults() {
+        return jungTestResults;
+    }
+
+    public void setJungTestResults(List<JungTestResult> jungTestResults) {
+        this.jungTestResults = jungTestResults;
     }
 }
