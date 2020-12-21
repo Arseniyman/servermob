@@ -4,6 +4,9 @@ import com.av.psytest.server.exceptions.UserAlreadyExistsException;
 import com.av.psytest.server.models.User;
 import com.av.psytest.server.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +38,9 @@ public class UserController {
     }
 
     @GetMapping("/all")
-    public List<User> getAllUsers() {
-        return userService.getAll();
+    public List<User> getAllUsers(
+            @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC)Pageable pageable
+            ){
+        return userService.getAll(pageable).getContent();
     }
 }

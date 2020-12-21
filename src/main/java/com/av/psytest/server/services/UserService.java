@@ -6,6 +6,10 @@ import com.av.psytest.server.models.User;
 import com.av.psytest.server.repositories.RoleRepository;
 import com.av.psytest.server.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -46,8 +50,8 @@ public class UserService {
         userRepo.save(user);
     }
 
-    public List<User> getAll() {
-        return (List<User>) userRepo.findAll();
+    public Page<User> getAll(Pageable pageable) {
+        return userRepo.findAll(pageable);
     }
 
     public User getById(Long id) {
