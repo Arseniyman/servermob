@@ -70,4 +70,9 @@ public class UserService {
                                                      Date maxDate) {
         return userRepo.findByDateOfBirthBetweenAndSexIs(sex, minDate, maxDate);
     }
+
+    public void changePass(String username, String password) {
+        User curUser = FindByUsername(username);
+        curUser.setPassword(passwordEncoder.encode(curUser.getPassword()));
+    }
 }

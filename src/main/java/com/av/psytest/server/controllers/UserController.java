@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.Date;
 import java.util.List;
 
@@ -47,5 +48,23 @@ public class UserController {
     @GetMapping("/{email")
     public User getUserByUsename(@PathVariable(value = "email") String email) {
         return userService.FindByUsername(email);
+    }
+
+    @GetMapping("/myprofile")
+    public User getMyProfile(Principal principal) {
+        return userService.FindByUsername(principal.getName());
+    }
+
+    @PostMapping("/changepass")
+    public ResponseEntity changePass(@RequestBody(required = true) String password,
+                                     Principal principal) {
+        userService.changePass(principal.getName(), password);
+        return ResponseEntity.status(HttpStatus.OK).body("Password has been changed");
+    }
+
+    @GetMapping("/delete/{id}")
+    public ResponseEntity deleteUser(@PathVariable(value = "id") Long id) {
+        userService.delete(id);
+        return ResponseEntity.status(HttpStatus.OK).body("User has been deleted");
     }
 }
