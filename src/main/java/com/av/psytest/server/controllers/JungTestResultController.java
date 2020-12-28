@@ -2,11 +2,10 @@ package com.av.psytest.server.controllers;
 
 import com.av.psytest.server.services.JungTestResultService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 
-@Controller("/stat")
+@RestController
+@RequestMapping("stat")
 public class JungTestResultController {
     private JungTestResultService jungTestResultService;
 

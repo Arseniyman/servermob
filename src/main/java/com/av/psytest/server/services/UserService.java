@@ -68,7 +68,7 @@ public class UserService {
     public List<User> getUsersByDateBetweenAndGender(Boolean sex,
                                                      Date minDate,
                                                      Date maxDate) {
-        return userRepo.findByDateOfBirthBetweenAndSexIs(sex, minDate, maxDate);
+        return userRepo.findByDateOfBirthBetweenAndSexIs(minDate, maxDate, sex);
     }
 
     public void changePass(String username, String password) {

@@ -14,5 +14,5 @@ public interface UserRepository extends CrudRepository<User, Long> {
     User findByUsername(String username);
     boolean existsByUsername(String username);
     Page<User> findAll(Pageable pageable);
-    List<User> findByDateOfBirthBetweenAndSexIs(Boolean sex, Date minDate, Date maxDate);
+    List<User> findByDateOfBirthBetweenAndSexIs(Date minDate, Date maxDate, Boolean sex);
 }
